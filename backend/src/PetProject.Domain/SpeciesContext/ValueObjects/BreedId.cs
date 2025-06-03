@@ -1,6 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-
-namespace PetProject.Domain.SpeciesContext.ValueObjects
+﻿namespace PetProject.Domain.SpeciesContext.ValueObjects
 {
 
     public record class BreedId

@@ -2,7 +2,7 @@
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
-    public class HealthInformation
+    public record class HealthInformation
     {
         private HealthInformation(string value) => Value = value;
         public string Value { get; }        

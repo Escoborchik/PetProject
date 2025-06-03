@@ -2,7 +2,7 @@
 
 namespace PetProject.Domain.Shared.ValueObjects
 {
-    public class Description
+    public record class Description
     {
         private Description(string value) => Value = value;
         public string Value { get; }

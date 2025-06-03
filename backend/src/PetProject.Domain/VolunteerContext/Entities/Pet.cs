@@ -7,7 +7,7 @@ namespace PetProject.Domain.VolunteerContext.Entities
 {
     public class Pet : Entity
     {
-        private Pet(PetId id,
+        public Pet(PetId id,
             Name name,
             Description description,
             PetColor color,
@@ -57,47 +57,6 @@ namespace PetProject.Domain.VolunteerContext.Entities
         public HelpStatus HelpStatus { get; private set; }
         public Requisite Requisites { get; private set; }
         public DateOnly DateCreation { get; private set; }
-        public SpeciesAndBreed SpeciesAndBreed { get; private set; }
-
-
-        public static Result<Pet> Create(PetId id,
-            Name name,
-            Description description,
-            PetColor color,
-            HealthInformation healthInformation,
-            Address address,
-            Weight weight,
-            Height height,
-            Phone phone,
-            bool isNeutered,
-            DateOnly birthDate,
-            bool isVaccinated,
-            HelpStatus helpStatus,
-            Requisite requisites,
-            DateOnly dateCreation,
-            SpeciesAndBreed speciesAndBreed)
-        {
-            var pet = new Pet(
-                id,
-                name,
-                description,
-                color,
-                healthInformation,
-                address,
-                weight,
-                height,
-                phone,
-                isNeutered,
-                birthDate,
-                isVaccinated,
-                helpStatus,
-                requisites,
-                dateCreation,
-                speciesAndBreed
-                );
-
-            return Result.Success(pet);
-        }
+        public SpeciesAndBreed SpeciesAndBreed { get; private set; }         
     }
-
 }

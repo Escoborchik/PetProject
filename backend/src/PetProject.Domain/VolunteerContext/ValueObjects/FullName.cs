@@ -2,7 +2,7 @@
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
-    public class FullName
+    public record class FullName
     {
         private FullName(string firstName, string lastName, string middleName)
         {

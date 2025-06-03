@@ -1,6 +1,6 @@
 ﻿namespace PetProject.Domain.SpeciesContext.ValueObjects
 {
-    public class SpeciesId
+    public record class SpeciesId
     {
         private SpeciesId(Guid value)
         {

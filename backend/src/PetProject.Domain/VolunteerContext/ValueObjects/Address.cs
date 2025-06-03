@@ -2,7 +2,7 @@
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
-    public class Address
+    public record class Address
     {
         private Address(string value) => Value = value;
         public string Value { get; }        

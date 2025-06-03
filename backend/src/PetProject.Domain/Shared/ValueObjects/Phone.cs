@@ -3,9 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace PetProject.Domain.Shared.ValueObjects
 {
-
-
-    public class Phone
+    public record class Phone
     {
         private const string PhoneRegexPattern =
             @"^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,4}[-\s\.]?[0-9]{1,9}$";

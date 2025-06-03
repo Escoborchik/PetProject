@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
-    public class Email
+    public record class Email
     {
         private const string REGEX = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
         private Email(string email)

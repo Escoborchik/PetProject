@@ -2,11 +2,10 @@
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
-    public class Height
+    public record class Height
     {
         private Height(int value) => Value = value;
         public int Value { get; }
-
         public static Result<Height> Create(int height)
         {
             if (height < 0)
