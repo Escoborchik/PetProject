@@ -8,14 +8,19 @@ namespace PetProject.Domain.SpeciesContext
     public class Species
     {
         private readonly List<Breed> _breeds = [];
+
         public Species(SpeciesId id, Name name)
         {
             Id = id;
             Name = name;            
         }
+
         public SpeciesId Id { get; private set; }
+
         public Name Name { get; private set; }
+
         public IReadOnlyList<Breed> Breeds => _breeds;
+
         public Result AddBreed(Breed breed)
         {
             if (_breeds.Contains(breed))

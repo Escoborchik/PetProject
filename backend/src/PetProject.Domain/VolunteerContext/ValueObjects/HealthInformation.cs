@@ -5,7 +5,9 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
     public record class HealthInformation
     {
         private HealthInformation(string value) => Value = value;
+
         public string Value { get; }        
+
         public static Result<HealthInformation> Create(string healthInformation)
         {
             if (string.IsNullOrWhiteSpace(healthInformation))

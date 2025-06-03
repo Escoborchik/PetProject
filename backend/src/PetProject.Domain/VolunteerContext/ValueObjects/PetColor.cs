@@ -5,7 +5,9 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
     public record class PetColor
     {
         private PetColor(string value) => Value = value;
+
         public string Value { get; }        
+
         public static Result<PetColor> Create(string petColor)
         {
             if (string.IsNullOrWhiteSpace(petColor))

@@ -10,7 +10,9 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
             Name = name;
         }
         public string Link { get; }
+
         public Name Name { get; }
+
         public static Result<SocialNetwork> Create(string link, Name name)
         {
             if (string.IsNullOrWhiteSpace(link))

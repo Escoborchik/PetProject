@@ -9,7 +9,9 @@ namespace PetProject.Domain.Shared.ValueObjects
             Name = name;
             InfoOfTransfer = infoOfTransfer;
         }
+
         public Name Name { get; }
+
         public Description InfoOfTransfer { get; }       
     }
 }

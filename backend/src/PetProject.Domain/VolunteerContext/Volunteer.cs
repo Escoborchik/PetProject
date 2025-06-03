@@ -31,16 +31,27 @@ namespace PetProject.Domain.VolunteerContext
         }
 
         public VolunteerId Id { get; private set; }
+
         public FullName FullName { get; private set; }
+
         public Email Email { get; private set; }
+
         public Description Description { get; private set; }
+
         public int ExperienceYears { get; private set; }
+
         public Phone Phone { get; private set; }
+
         public Requisite Requisites { get; private set; }
+
         public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+
         public IReadOnlyList<Pet> AllPets => _pets;
+
         public IReadOnlyList<Pet> PetsNeedsHelp => GetPetsNeedsHelp();
+
         public IReadOnlyList<Pet> PetsLookingForHome => GetPetsLookingForHome();
+
         public IReadOnlyList<Pet> PetsFoundHome => GetPetsFoundHome();
 
         public Result AddSocialNetwork(SocialNetwork socialNetwork)

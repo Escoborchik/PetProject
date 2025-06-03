@@ -10,9 +10,13 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
             LastName = lastName;
             MiddleName = middleName;
         }
+
         public string FirstName { get; }
+
         public string LastName { get; }
+
         public string MiddleName { get; }
+
         public static Result<FullName> Create(string firstName, string lastName, string middleName)
         {
             if (string.IsNullOrWhiteSpace(firstName))

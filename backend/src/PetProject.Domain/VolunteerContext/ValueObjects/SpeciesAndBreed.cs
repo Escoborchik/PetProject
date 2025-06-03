@@ -9,7 +9,9 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
             SpeciesId = speciesId;
             BreedId = breedId;
         }
+
         public SpeciesId SpeciesId { get; }
+
         public BreedId BreedId { get; }        
     }
 }

@@ -43,20 +43,35 @@ namespace PetProject.Domain.VolunteerContext.Entities
         }
 
         public PetId Id { get; private set; }
+
         public Name Name { get; private set; }
+
         public Description Description { get; private set; }
+
         public PetColor Color { get; private set; }
+
         public HealthInformation HealthInformation { get; private set; }
+
         public Address Address { get; private set; }
+
         public Weight Weight { get; private set; }
+
         public Height Height { get; private set; }
+
         public Phone Phone { get; private set; }
+
         public bool IsNeutered { get; private set; }
+
         public DateOnly BirthDate { get; private set; }
+
         public bool IsVaccinated { get; private set; }
+
         public HelpStatus HelpStatus { get; private set; }
+
         public Requisite Requisites { get; private set; }
+
         public DateOnly DateCreation { get; private set; }
+
         public SpeciesAndBreed SpeciesAndBreed { get; private set; }         
     }
 }
