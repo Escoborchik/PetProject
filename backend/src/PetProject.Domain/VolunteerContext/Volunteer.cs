@@ -6,53 +6,47 @@ using PetProject.Domain.VolunteerContext.ValueObjects;
 
 namespace PetProject.Domain.VolunteerContext
 {
-    public class Volunteer : Entity
+    public class Volunteer : Entity<VolunteerId>
     {
         private readonly List<SocialNetwork> _socialNetworks = [];
 
         private readonly List<Pet> _pets = [];
 
+        private readonly List<Requisite> _requisites = [];
+
+        //ef  core
+        private Volunteer() { }
+
         public Volunteer(
             VolunteerId id,
             FullName fullName,
-            Email email,
+            VolunteerContacts contacts,
             Description description,
             int experienceYears,
-            Phone phone,
-            Requisite requisites)
+            Phone phone)
         {            
             Id = id;
             FullName = fullName;
-            Email = email;
+            Contacts = contacts;
             Description = description;
-            ExperienceYears = experienceYears;
-            Phone = phone;
-            Requisites = requisites;
-        }
+            ExperienceYears = experienceYears;                       
+        }          
 
-        public VolunteerId Id { get; private set; }
+        public FullName FullName { get; private set; } = null!;
 
-        public FullName FullName { get; private set; }
+        public VolunteerContacts Contacts { get; private set; } = null!;
 
-        public Email Email { get; private set; }
-
-        public Description Description { get; private set; }
+        public Description Description { get; private set; } = null!;
 
         public int ExperienceYears { get; private set; }
 
-        public Phone Phone { get; private set; }
-
-        public Requisite Requisites { get; private set; }
+        public IReadOnlyList<Requisite> Requisites => _requisites;
 
         public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
 
-        public IReadOnlyList<Pet> AllPets => _pets;
+        public IReadOnlyList<Pet> Pets => _pets;
 
-        public IReadOnlyList<Pet> PetsNeedsHelp => GetPetsNeedsHelp();
-
-        public IReadOnlyList<Pet> PetsLookingForHome => GetPetsLookingForHome();
-
-        public IReadOnlyList<Pet> PetsFoundHome => GetPetsFoundHome();
+        private int GetPetsCountByStatus(HelpStatus status) => Pets.Count(p => p.HelpStatus == status);
 
         public Result AddSocialNetwork(SocialNetwork socialNetwork)
         {
@@ -60,6 +54,16 @@ namespace PetProject.Domain.VolunteerContext
                 return Result.Failure("Social network already exists in the volunteer's list.");
 
             _socialNetworks.Add(socialNetwork);
+
+            return Result.Success();
+        }
+
+        public Result AddRequisite(Requisite requisite)
+        {
+            if (_requisites.Contains(requisite))
+                return Result.Failure("Requisite already exists in the volunteer's list.");
+
+            _requisites.Add(requisite);
 
             return Result.Success();
         }
@@ -74,25 +78,19 @@ namespace PetProject.Domain.VolunteerContext
             return Result.Success();
         }
 
-        private IReadOnlyList<Pet> GetPetsNeedsHelp()
+        public int GetPetsFoundHome()
         {
-            return _pets
-                .Where(p => p.HelpStatus is HelpStatus.NeedHelp)
-                .ToList();
+            return GetPetsCountByStatus(HelpStatus.FoundHome);
         }
 
-        private IReadOnlyList<Pet> GetPetsLookingForHome()
+        public int GetPetLookingForHome()
         {
-            return _pets
-                .Where(p => p.HelpStatus is HelpStatus.LookingHome)
-                .ToList();
+            return GetPetsCountByStatus(HelpStatus.LookingHome);
         }
 
-        private IReadOnlyList<Pet> GetPetsFoundHome()
+        public int GetPetsNeedsHelp()
         {
-            return _pets
-                .Where(p => p.HelpStatus is HelpStatus.FoundHome)
-                .ToList();
-        }
+            return GetPetsCountByStatus(HelpStatus.NeedHelp);
+        }         
     }
 }
