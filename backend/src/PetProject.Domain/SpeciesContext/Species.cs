@@ -9,15 +9,18 @@ namespace PetProject.Domain.SpeciesContext
     {
         private readonly List<Breed> _breeds = [];
 
+        //ef  core
+        private Species() { }
+
         public Species(SpeciesId id, Name name)
         {
             Id = id;
             Name = name;            
         }
 
-        public SpeciesId Id { get; private set; }
+        public SpeciesId Id { get; private set; } = null!;
 
-        public Name Name { get; private set; }
+        public Name Name { get; private set; } = null!;
 
         public IReadOnlyList<Breed> Breeds => _breeds;
 

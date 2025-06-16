@@ -5,14 +5,17 @@ namespace PetProject.Domain.SpeciesContext.Entities
 {
     public class Breed
     {
-        public BreedId BreedId { get; private set; }
-
-        public Name Name { get; private set; }
-
+        //ef  core
+        private Breed() { }
         public Breed(BreedId id, Name name)
         {
-            BreedId = id;
+            Id = id;
             Name = name;
-        }                      
+        }
+        public BreedId Id { get; private set; } = null!;
+
+        public Name Name { get; private set; } = null!;
+
+                            
     }
 }

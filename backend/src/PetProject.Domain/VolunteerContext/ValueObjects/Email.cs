@@ -7,10 +7,7 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
     {
         private const string REGEX = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
 
-        private Email(string email)
-        {
-            Value = email;
-        }
+        private Email(string email) => Value = email;        
 
         public string Value { get; }
 

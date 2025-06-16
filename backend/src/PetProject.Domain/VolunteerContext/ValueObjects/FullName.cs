@@ -20,13 +20,13 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
         public static Result<FullName> Create(string firstName, string lastName, string middleName)
         {
             if (string.IsNullOrWhiteSpace(firstName))
-                return Result.Failure<FullName>("FirstName is not null or empty");
+                return Result.Failure<FullName>("FirstName is null or empty");
 
             if (string.IsNullOrWhiteSpace(lastName))
-                return Result.Failure<FullName>("LastName is not null or empty");
+                return Result.Failure<FullName>("LastName is null or empty");
 
             if (string.IsNullOrWhiteSpace(middleName))
-                return Result.Failure<FullName>("MiddleName is not null or empty");
+                return Result.Failure<FullName>("MiddleName is null or empty");
 
             return new FullName(firstName, lastName, middleName);
         }

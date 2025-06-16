@@ -5,73 +5,68 @@ using PetProject.Domain.VolunteerContext.ValueObjects;
 
 namespace PetProject.Domain.VolunteerContext.Entities
 {
-    public class Pet : Entity
+    public class Pet : Entity<PetId>
     {
-        public Pet(PetId id,
+        private readonly List<Requisite> _requisites = [];
+
+        //ef  core
+        private Pet() { }
+
+        public Pet(PetId petId,
             Name name,
             Description description,
-            PetColor color,
-            HealthInformation healthInformation,
+            PetCharacteristics characteristics,
+            HealthInformation healthInformation, 
             Address address,
-            Weight weight,
-            Height height,
             Phone phone,
-            bool isNeutered,
             DateOnly birthDate,
-            bool isVaccinated,
-            HelpStatus helpStatus,
-            Requisite requisites,
-            DateOnly dateCreation,
+            HelpStatus helpStatus, 
+            DateOnly dateCreation, 
             SpeciesAndBreed speciesAndBreed)
         {
-            Id = id;
+            Id = petId;
             Name = name;
             Description = description;
-            Color = color;
+            Characteristics = characteristics;
             HealthInformation = healthInformation;
             Address = address;
-            Weight = weight;
-            Height = height;
             Phone = phone;
-            IsNeutered = isNeutered;
             BirthDate = birthDate;
-            IsVaccinated = isVaccinated;
             HelpStatus = helpStatus;
-            Requisites = requisites;
             DateCreation = dateCreation;
             SpeciesAndBreed = speciesAndBreed;
         }
 
-        public PetId Id { get; private set; }
+        public Name Name { get; private set; } = null!;
 
-        public Name Name { get; private set; }
+        public Description Description { get; private set; } = null!;
 
-        public Description Description { get; private set; }
+        public PetCharacteristics Characteristics { get; private set; } = null!;
 
-        public PetColor Color { get; private set; }
+        public HealthInformation HealthInformation { get; private set; } = null!;
 
-        public HealthInformation HealthInformation { get; private set; }
+        public Address Address { get; private set; } = null!;
 
-        public Address Address { get; private set; }
-
-        public Weight Weight { get; private set; }
-
-        public Height Height { get; private set; }
-
-        public Phone Phone { get; private set; }
-
-        public bool IsNeutered { get; private set; }
+        public Phone Phone { get; private set; } = null!;
 
         public DateOnly BirthDate { get; private set; }
 
-        public bool IsVaccinated { get; private set; }
-
         public HelpStatus HelpStatus { get; private set; }
 
-        public Requisite Requisites { get; private set; }
+        public IReadOnlyList<Requisite> Requisites => _requisites;
 
         public DateOnly DateCreation { get; private set; }
 
-        public SpeciesAndBreed SpeciesAndBreed { get; private set; }         
+        public SpeciesAndBreed SpeciesAndBreed { get; private set; } = null!;
+
+        public Result AddRequisite(Requisite requisite)
+        {
+            if (_requisites.Contains(requisite))
+                return Result.Failure("Requisite already exists in the volunteer's list.");
+
+            _requisites.Add(requisite);
+
+            return Result.Success();
+        }
     }
 }
