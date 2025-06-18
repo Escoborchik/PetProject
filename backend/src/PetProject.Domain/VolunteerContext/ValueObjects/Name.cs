@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
@@ -8,14 +9,12 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
 
         public string Value { get; }     
 
-        public static Result<Name> Create(string name)
+        public static Result<Name, Error> Create(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure<Name>("Name cant'be empty!");
+                return Errors.General.ValueIsInvalid(nameof(Name));
 
-            var validName = new Name(name);
-
-            return Result.Success(validName);
+            return new Name(name);
         }
     }
 }

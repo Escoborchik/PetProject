@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 using System.Text.RegularExpressions;
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
@@ -11,14 +12,14 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
 
         public string Value { get; }
 
-        public static Result<Email> Create(string email)
+        public static Result<Email,Error> Create(string email)
         {
             Regex regex = new(REGEX);
 
             if (regex.IsMatch(email) == false)
-                return Result.Failure<Email>($"Specified email address is invalid! : {email}");
+                return Errors.General.ValueIsInvalid(nameof(Email));
 
-            return Result.Success(new Email(email));
+            return new Email(email);
         }
     }
 }

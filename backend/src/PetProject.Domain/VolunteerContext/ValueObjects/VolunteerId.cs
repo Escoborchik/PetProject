@@ -8,7 +8,7 @@
         }
         public Guid Value { get; }
 
-        public static VolunteerId NewPetId() => new(Guid.NewGuid());
+        public static VolunteerId NewId() => new(Guid.NewGuid());
 
         public static VolunteerId Empty() => new(Guid.Empty);
 
@@ -21,5 +21,7 @@
 
             return Value.CompareTo(other.Value);
         }
+
+        public static implicit operator Guid(VolunteerId volunteerId) => volunteerId.Value;
     }
 }

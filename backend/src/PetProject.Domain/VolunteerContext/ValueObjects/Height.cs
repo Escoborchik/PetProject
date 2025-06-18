@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
@@ -8,14 +9,12 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
 
         public int Value { get; }
 
-        public static Result<Height> Create(int height)
+        public static Result<Height,Error> Create(int height)
         {
             if (height < 0)
-                return Result.Failure<Height>("Height cant'be less than 0!");
+                return Errors.General.ValueIsInvalid(nameof(Height));         
 
-            var validHeight = new Height(height);
-
-            return Result.Success(validHeight);
+            return new Height(height);
         }
     }
 }

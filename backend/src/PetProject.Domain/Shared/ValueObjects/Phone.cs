@@ -12,15 +12,15 @@ namespace PetProject.Domain.Shared.ValueObjects
 
         public string Value { get; }
 
-        public static Result<Phone> Create(string phone)
+        public static Result<Phone,Error> Create(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
-                return Result.Failure<Phone>("Phone number cannot be empty!");
+                return Errors.General.ValueIsInvalid(nameof(Phone));
 
             if (!Regex.IsMatch(phone, PhoneRegexPattern))
-                return Result.Failure<Phone>($"Invalid phone number format: {phone}");
+                return Errors.General.ValueIsInvalid(nameof(Phone));
 
-            return Result.Success(new Phone(phone));
+            return new Phone(phone);
         }
     }
 }
