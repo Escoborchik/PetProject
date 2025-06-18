@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 
 namespace PetProject.Domain.VolunteerContext.ValueObjects
 {
@@ -14,23 +15,23 @@ namespace PetProject.Domain.VolunteerContext.ValueObjects
         public string Street { get; }        
         public int House { get; }        
 
-        public static Result<Address> Create(string city, string street, string house)
+        public static Result<Address,Error> Create(string city, string street, string house)
         {
             if (string.IsNullOrWhiteSpace(city))
-                return Result.Failure<Address>("Address cant'be empty!");
+                return Errors.General.ValueIsInvalid(nameof(City));
 
             if (string.IsNullOrWhiteSpace(street))
-                return Result.Failure<Address>("Address cant'be empty!");
+                return Errors.General.ValueIsInvalid(nameof(Street));
 
             if (string.IsNullOrWhiteSpace(house))
-                return Result.Failure<Address>("Address cant'be empty!");
+                return Errors.General.ValueIsInvalid(nameof(House));
 
             if (!int.TryParse(house, out int houseNumber))
-                return Result.Failure<Address>("House is not a digit!");
+                return Errors.General.ValueIsInvalid(nameof(House));
 
             var validAddress = new Address(city,street, houseNumber);
 
-            return Result.Success(validAddress);
+            return validAddress;
         }
     }
 }

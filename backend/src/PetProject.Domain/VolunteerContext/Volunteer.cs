@@ -23,13 +23,16 @@ namespace PetProject.Domain.VolunteerContext
             VolunteerContacts contacts,
             Description description,
             int experienceYears,
-            Phone phone)
+            IEnumerable<Requisite> requisites,
+            IEnumerable<SocialNetwork> socialNetworks)
         {            
             Id = id;
             FullName = fullName;
             Contacts = contacts;
             Description = description;
-            ExperienceYears = experienceYears;                       
+            ExperienceYears = experienceYears;
+            _requisites = requisites.ToList();
+            _socialNetworks = socialNetworks.ToList();
         }          
 
         public FullName FullName { get; private set; } = null!;

@@ -8,14 +8,12 @@ namespace PetProject.Domain.Shared.ValueObjects
 
         public string Value { get; }
 
-        public static Result<Description> Create(string description)
+        public static Result<Description,Error> Create(string description)
         {
             if (string.IsNullOrWhiteSpace(description))
-                return Result.Failure<Description>("Description cant'be empty!");
+                return Errors.General.ValueIsInvalid(nameof(Description));
 
-            var validDescription = new Description(description);
-
-            return Result.Success(validDescription);
+            return new Description(description);
         }
     }
 }
