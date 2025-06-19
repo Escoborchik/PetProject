@@ -5,6 +5,7 @@ using PetProject.Domain.VolunteerContext.ValueObjects;
 using PetProject.Domain.VolunteerContext;
 using FluentValidation;
 using PetProject.Application.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace PetProject.Application.Volunteers.CreateVolunteer
 {
@@ -12,11 +13,14 @@ namespace PetProject.Application.Volunteers.CreateVolunteer
     {
         private readonly IVolunteersRepository _volunteersRepository;
         private readonly IValidator<CreateVolunteerCommand> _validator;
-
-        public CreateVolunteerHandler(IVolunteersRepository volunteersRepository, IValidator<CreateVolunteerCommand> validator)
+        private readonly ILogger<CreateVolunteerHandler> _logger;
+        public CreateVolunteerHandler(IVolunteersRepository volunteersRepository,
+            IValidator<CreateVolunteerCommand> validator,
+            ILogger<CreateVolunteerHandler> logger)
         {
             _volunteersRepository = volunteersRepository;
             _validator = validator;
+            _logger = logger;
         }
         public async Task<Result<Guid, ErrorList>> Execute(
         CreateVolunteerCommand command, CancellationToken cancellationToken = default)
@@ -84,6 +88,8 @@ namespace PetProject.Application.Volunteers.CreateVolunteer
             socialNetworks);
 
             await _volunteersRepository.Add(newVolunteer, cancellationToken);
+
+            _logger.LogInformation("Added volunteer with id {volunteerId}", volunteerId.Value);
 
             return (Guid)newVolunteer.Id;
         }
