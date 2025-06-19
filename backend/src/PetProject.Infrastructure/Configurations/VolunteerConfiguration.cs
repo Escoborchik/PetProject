@@ -94,6 +94,9 @@ namespace PetProject.Infrastructure.Configurations
                 sb.ToJson("social_networks");
 
                 sb.Property(s => s.Link)
+                .HasConversion(
+                link => link.Value,
+                value => Link.Create(value).Value)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_TEXT_LENGTH)
                 .HasColumnName("link");

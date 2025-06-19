@@ -3,44 +3,50 @@ using PetProject.Domain.Shared.ValueObjects;
 using PetProject.Domain.Shared;
 using PetProject.Domain.VolunteerContext.ValueObjects;
 using PetProject.Domain.VolunteerContext;
+using FluentValidation;
+using PetProject.Application.Extensions;
 
 namespace PetProject.Application.Volunteers.CreateVolunteer
 {
     public class CreateVolunteerHandler
     {
         private readonly IVolunteersRepository _volunteersRepository;
+        private readonly IValidator<CreateVolunteerCommand> _validator;
 
-        public CreateVolunteerHandler(IVolunteersRepository volunteersRepository)
+        public CreateVolunteerHandler(IVolunteersRepository volunteersRepository, IValidator<CreateVolunteerCommand> validator)
         {
             _volunteersRepository = volunteersRepository;
+            _validator = validator;
         }
-        public async Task<Result<Guid, Error>> Execute(
+        public async Task<Result<Guid, ErrorList>> Execute(
         CreateVolunteerCommand command, CancellationToken cancellationToken = default)
-        {
+        {             
+            var validationResult = await _validator.ValidateAsync(command, cancellationToken);
+
+            if (!validationResult.IsValid) 
+            {
+                return validationResult.ToErrorList();
+            }
+
             var volunteerId = VolunteerId.NewId();
 
-            var fullNameResult = FullName.Create(command.FirstName, command.LastName, command.MiddleName);
-            if (fullNameResult.IsFailure)
-                return fullNameResult.Error;
+            var fullName = FullName.Create(
+                command.FullName.FirstName,
+                command.FullName.LastName,
+                command.FullName.MiddleName).Value;            
 
-            var emailResult = Email.Create(command.Email);
-            if (emailResult.IsFailure)
-                return emailResult.Error;
+            var email = Email.Create(command.Email).Value;            
 
-            var existingVolunteer = await _volunteersRepository.GetByEmail(emailResult.Value, cancellationToken);
+            var existingVolunteer = await _volunteersRepository.GetByEmail(email, cancellationToken);
 
             if (existingVolunteer.IsSuccess)
-                return Errors.General.AlreadyExist("volunteer");
+                return Errors.General.AlreadyExist(email.Value).ToErrorList();
 
-            var phoneResult = Phone.Create(command.Phone);
-            if (phoneResult.IsFailure)
-                return phoneResult.Error;
+            var phone = Phone.Create(command.Phone).Value;            
 
-            var volunteerContacts = new VolunteerContacts(emailResult.Value,phoneResult.Value);
+            var volunteerContacts = new VolunteerContacts(email,phone);
 
-            var descriptionResult = Description.Create(command.Description);
-            if (descriptionResult.IsFailure)
-                return descriptionResult.Error;
+            var description = Description.Create(command.Description).Value;            
 
             var yearsOfExperience = command.YearsOfExperience;
 
@@ -48,37 +54,31 @@ namespace PetProject.Application.Volunteers.CreateVolunteer
 
             foreach (var requisite in command.Requisites)
             {
-                var requisiteName = Name.Create(requisite.Name);
-                if (descriptionResult.IsFailure)
-                    return descriptionResult.Error;
+                var requisiteName = Name.Create(requisite.Name).Value;                
 
-                var requisiteDescription = Description.Create(requisite.Description);
-                if (descriptionResult.IsFailure)
-                    return descriptionResult.Error;
+                var requisiteDescription = Description.Create(requisite.Description).Value;                
 
-                requisites.Add(new Requisite(requisiteName.Value, requisiteDescription.Value));
+                requisites.Add(new Requisite(requisiteName, requisiteDescription));
             }
 
             var socialNetworks = new List<SocialNetwork>();
 
             foreach (var network in command.SocialNetworks)
             {
-                var socialNetworkName = Name.Create(network.Name);
-                if (descriptionResult.IsFailure)
-                    return descriptionResult.Error;
+                var socialNetworkName = Name.Create(network.Name).Value;                
 
-                var socialNetwork = SocialNetwork.Create(network.Link, socialNetworkName.Value);
-                if (descriptionResult.IsFailure)
-                    return descriptionResult.Error;
+                var socialNetworkLink = Link.Create(network.Link).Value;                
 
-                socialNetworks.Add(socialNetwork.Value);
+                var socialNetwork = new SocialNetwork(socialNetworkLink, socialNetworkName);                
+
+                socialNetworks.Add(socialNetwork);
             }           
 
             var newVolunteer = new Volunteer(
             volunteerId,
-            fullNameResult.Value,
+            fullName,
             volunteerContacts,
-            descriptionResult.Value,
+            description,
             yearsOfExperience,           
             requisites,
             socialNetworks);

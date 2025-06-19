@@ -12,6 +12,6 @@ namespace PetProject.Domain.Shared.ValueObjects
 
         public Name Name { get; }
 
-        public Description InfoOfTransfer { get; }       
+        public Description InfoOfTransfer { get; }                    
     }
 }
