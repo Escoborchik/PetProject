@@ -1,15 +1,14 @@
 ﻿using PetProject.Contracts.DTO;
 
-namespace PetProject.API.Requests.Volunteer
+namespace PetProject.Contracts.Requests.Volunteer
 {
     public record CreateVolunteerRequest(
-        string FirstName,
-        string LastName,
-        string MiddleName,        
+        FullNameDto FullName,
         string Email,
         string Phone,
         string Description,
-        int YearsOfExperience,        
+        int YearsOfExperience,
         IEnumerable<RequisitesDto> Requisites,
-        IEnumerable<SocialNetworksDto> SocialNetworks);        
+        IEnumerable<SocialNetworksDto> SocialNetworks);
+
 }

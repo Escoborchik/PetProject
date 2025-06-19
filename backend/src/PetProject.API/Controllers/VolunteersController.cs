@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PetProject.API.Extensions;
-using PetProject.API.Requests.Volunteer;
+using PetProject.API.Response;
 using PetProject.Application.Volunteers.CreateVolunteer;
+using PetProject.Contracts.Requests.Volunteer;
 
 namespace PetProject.API.Controllers
 {
@@ -16,22 +17,21 @@ namespace PetProject.API.Controllers
         CancellationToken cancellationToken)
         {
             var command = new CreateVolunteerCommand(
-                request.FirstName,
-                request.MiddleName,
-                request.LastName,
+                request.FullName,
                 request.Email,
                 request.Description,
                 request.YearsOfExperience,
                 request.Phone,
                 request.Requisites,
-                request.SocialNetworks);            
+                request.SocialNetworks
+            );            
 
-            var result = await handler.Execute(command, cancellationToken);
-
+            var result = await handler.Execute(command, cancellationToken);  
+            
             if (result.IsFailure)
                 return result.Error.ToResponse();       
 
-            return Ok(result.Value);
+            return Ok(Envelope.Ok(result.Value));
         }
     }
 }

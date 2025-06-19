@@ -3,9 +3,7 @@
 namespace PetProject.Application.Volunteers.CreateVolunteer
 {
     public record class CreateVolunteerCommand(
-        string FirstName,
-        string LastName,
-        string MiddleName,        
+        FullNameDto FullName,       
         string Email,
         string Description,
         int YearsOfExperience,
