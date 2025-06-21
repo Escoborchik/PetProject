@@ -1,18 +1,19 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 using PetProject.Domain.Shared.ValueObjects;
 using PetProject.Domain.VolunteerContext.Enums;
 using PetProject.Domain.VolunteerContext.ValueObjects;
 
 namespace PetProject.Domain.VolunteerContext.Entities
 {
-    public class Pet : Entity<PetId>
+    public class Pet : SoftDeletableEntity<PetId>
     {
         private readonly List<Requisite> _requisites = [];
 
         //ef  core
-        private Pet() { }
+        private Pet(PetId id): base(id) { }
 
-        public Pet(PetId petId,
+        public Pet(PetId id,
             Name name,
             Description description,
             PetCharacteristics characteristics,
@@ -22,9 +23,9 @@ namespace PetProject.Domain.VolunteerContext.Entities
             DateOnly birthDate,
             HelpStatus helpStatus, 
             DateOnly dateCreation, 
-            SpeciesAndBreed speciesAndBreed)
+            SpeciesAndBreed speciesAndBreed) : this(id)
         {
-            Id = petId;
+            Id = id;
             Name = name;
             Description = description;
             Characteristics = characteristics;

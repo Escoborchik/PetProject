@@ -2,6 +2,7 @@
 using PetProject.API.Extensions;
 using PetProject.API.Response;
 using PetProject.Application.Volunteers.Create;
+using PetProject.Application.Volunteers.Delete;
 using PetProject.Application.Volunteers.UpdateMainInfo;
 using PetProject.Application.Volunteers.UpdateRequisites;
 using PetProject.Application.Volunteers.UpdateSocialNets;
@@ -92,6 +93,38 @@ namespace PetProject.API.Controllers
                 id,
                 request.SocialNetworks
             );
+
+            var result = await handler.Execute(command, cancellationToken);
+
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(Envelope.Ok(result.Value));
+        }
+
+        [HttpDelete("{id:guid}/soft")]
+        public async Task<ActionResult<Guid>> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteSoftVolunteerHandler handler,        
+        CancellationToken cancellationToken)
+        {
+            var command = new DeleteVolunteerCommand(id);
+
+            var result = await handler.Execute(command, cancellationToken);
+
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+
+            return Ok(Envelope.Ok(result.Value));
+        }
+
+        [HttpDelete("{id:guid}/hard")]
+        public async Task<ActionResult<Guid>> Delete(
+        [FromRoute] Guid id,
+        [FromServices] DeleteHardVolunteerHandler handler,
+        CancellationToken cancellationToken)
+        {
+            var command = new DeleteVolunteerCommand(id);
 
             var result = await handler.Execute(command, cancellationToken);
 

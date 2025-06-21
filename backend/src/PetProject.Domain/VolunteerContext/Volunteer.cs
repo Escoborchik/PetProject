@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetProject.Domain.Shared;
 using PetProject.Domain.Shared.ValueObjects;
 using PetProject.Domain.VolunteerContext.Entities;
 using PetProject.Domain.VolunteerContext.Enums;
@@ -6,7 +7,7 @@ using PetProject.Domain.VolunteerContext.ValueObjects;
 
 namespace PetProject.Domain.VolunteerContext
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : SoftDeletableEntity<VolunteerId>
     {
         private readonly List<SocialNetwork> _socialNetworks = [];
 
@@ -15,7 +16,7 @@ namespace PetProject.Domain.VolunteerContext
         private readonly List<Requisite> _requisites = [];
 
         //ef  core
-        private Volunteer() { }
+        private Volunteer(VolunteerId id) : base(id) { }
 
         public Volunteer(
             VolunteerId id,
@@ -24,15 +25,15 @@ namespace PetProject.Domain.VolunteerContext
             Description description,
             int experienceYears,
             IEnumerable<Requisite> requisites,
-            IEnumerable<SocialNetwork> socialNetworks)
+            IEnumerable<SocialNetwork> socialNetworks) : this(id)
         {
             Id = id;
             FullName = fullName;
             Contacts = contacts;
             Description = description;
             ExperienceYears = experienceYears;
-            _requisites = requisites.ToList();
-            _socialNetworks = socialNetworks.ToList();
+            _requisites = [.. requisites];
+            _socialNetworks = [.. socialNetworks];
         }
 
         public FullName FullName { get; private set; } = null!;
@@ -97,6 +98,24 @@ namespace PetProject.Domain.VolunteerContext
         {            
             _requisites.Clear();
             _requisites.AddRange(requisites);
+        }
+
+        public override void Delete()
+        {
+            base.Delete();
+            foreach (var pet in _pets)
+            {
+                pet.Delete();
+            }
+        }
+
+        public override void Restore()
+        {
+            base.Restore();
+            foreach (var pet in _pets)
+            {
+                pet.Restore();
+            }
         }
     }
 }
