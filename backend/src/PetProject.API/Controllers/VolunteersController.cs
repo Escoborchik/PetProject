@@ -2,7 +2,7 @@
 using PetProject.API.Extensions;
 using PetProject.API.Response;
 using PetProject.Application.Volunteers.Create;
-using PetProject.Application.Volunteers.UpdateKeyInfo;
+using PetProject.Application.Volunteers.UpdateMainInfo;
 using PetProject.Application.Volunteers.UpdateRequisites;
 using PetProject.Application.Volunteers.UpdateSocialNets;
 using PetProject.Contracts.Requests.Volunteer;
@@ -40,11 +40,11 @@ namespace PetProject.API.Controllers
         [HttpPut("{id:guid}/key-info")]
         public async Task<ActionResult<Guid>> Update(
         [FromRoute] Guid id,
-        [FromServices] UpdateVolunteerKeyInfoHandler handler,
-        [FromBody] UpdateVolunteerKeyInfoRequest request,
+        [FromServices] UpdateVolunteerMainInfoHandler handler,
+        [FromBody] UpdateVolunteerMainInfoRequest request,
         CancellationToken cancellationToken)
         {
-            var command = new UpdateVolunteerKeyInfoCommand(
+            var command = new UpdateVolunteerMainInfoCommand(
                 id,
                 request.FullName,
                 request.Email,

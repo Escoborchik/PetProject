@@ -75,7 +75,7 @@ namespace PetProject.Domain.VolunteerContext
             return GetPetsCountByStatus(HelpStatus.NeedHelp);
         }
 
-        public void UpdateKeyInfo(
+        public void UpdateMainInfo(
             FullName fullName,
             VolunteerContacts contacts,
             Description description,

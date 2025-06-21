@@ -1,8 +1,8 @@
 ﻿using PetProject.Contracts.DTO;
 
-namespace PetProject.Application.Volunteers.UpdateKeyInfo
+namespace PetProject.Application.Volunteers.UpdateMainInfo
 {
-    public record class UpdateVolunteerKeyInfoCommand(
+    public record class UpdateVolunteerMainInfoCommand(
         Guid VolunteerId,
         FullNameDto FullName,
         string Email,

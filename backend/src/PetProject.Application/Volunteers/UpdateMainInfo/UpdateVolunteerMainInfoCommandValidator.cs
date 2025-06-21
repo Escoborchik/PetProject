@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using PetProject.Application.Validators;
-using PetProject.Application.Volunteers.Create;
 using PetProject.Domain.Shared;
 using PetProject.Domain.Shared.ValueObjects;
 using PetProject.Domain.VolunteerContext.ValueObjects;
 
-namespace PetProject.Application.Volunteers.UpdateKeyInfo
+namespace PetProject.Application.Volunteers.UpdateMainInfo
 {    
-    public class UpdateVolunteerKeyInfoCommandValidator : AbstractValidator<UpdateVolunteerKeyInfoCommand>
+    public class UpdateVolunteerMainInfoCommandValidator : AbstractValidator<UpdateVolunteerMainInfoCommand>
     {
-        public UpdateVolunteerKeyInfoCommandValidator()
+        public UpdateVolunteerMainInfoCommandValidator()
         {
             RuleFor(u => u.VolunteerId)
                 .NotEmpty()

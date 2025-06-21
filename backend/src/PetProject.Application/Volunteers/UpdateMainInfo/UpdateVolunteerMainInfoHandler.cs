@@ -6,23 +6,23 @@ using PetProject.Domain.Shared;
 using PetProject.Domain.Shared.ValueObjects;
 using PetProject.Domain.VolunteerContext.ValueObjects;
 
-namespace PetProject.Application.Volunteers.UpdateKeyInfo
+namespace PetProject.Application.Volunteers.UpdateMainInfo
 {
-    public class UpdateVolunteerKeyInfoHandler
+    public class UpdateVolunteerMainInfoHandler
     {
         private readonly IVolunteersRepository _volunteersRepository;
-        private readonly IValidator<UpdateVolunteerKeyInfoCommand> _validator;
-        private readonly ILogger<UpdateVolunteerKeyInfoHandler> _logger;
-        public UpdateVolunteerKeyInfoHandler(IVolunteersRepository volunteersRepository,
-            IValidator<UpdateVolunteerKeyInfoCommand> validator,
-            ILogger<UpdateVolunteerKeyInfoHandler> logger)
+        private readonly IValidator<UpdateVolunteerMainInfoCommand> _validator;
+        private readonly ILogger<UpdateVolunteerMainInfoHandler> _logger;
+        public UpdateVolunteerMainInfoHandler(IVolunteersRepository volunteersRepository,
+            IValidator<UpdateVolunteerMainInfoCommand> validator,
+            ILogger<UpdateVolunteerMainInfoHandler> logger)
         {
             _volunteersRepository = volunteersRepository;
             _validator = validator;
             _logger = logger;
         }
         public async Task<Result<Guid, ErrorList>> Execute(
-        UpdateVolunteerKeyInfoCommand command,
+        UpdateVolunteerMainInfoCommand command,
         CancellationToken cancellationToken = default)
         {
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
@@ -56,7 +56,7 @@ namespace PetProject.Application.Volunteers.UpdateKeyInfo
 
             var yearsOfExperience = command.YearsOfExperience;
 
-            existingVolunteer.Value.UpdateKeyInfo(
+            existingVolunteer.Value.UpdateMainInfo(
                 fullName,
                 volunteerContacts,
                 description,
