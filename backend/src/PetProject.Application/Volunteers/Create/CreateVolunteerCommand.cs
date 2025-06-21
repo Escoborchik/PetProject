@@ -1,6 +1,6 @@
 ﻿using PetProject.Contracts.DTO;
 
-namespace PetProject.Application.Volunteers.CreateVolunteer
+namespace PetProject.Application.Volunteers.Create
 {
     public record class CreateVolunteerCommand(
         FullNameDto FullName,       

@@ -25,7 +25,7 @@ namespace PetProject.Domain.VolunteerContext
             int experienceYears,
             IEnumerable<Requisite> requisites,
             IEnumerable<SocialNetwork> socialNetworks)
-        {            
+        {
             Id = id;
             FullName = fullName;
             Contacts = contacts;
@@ -33,7 +33,7 @@ namespace PetProject.Domain.VolunteerContext
             ExperienceYears = experienceYears;
             _requisites = requisites.ToList();
             _socialNetworks = socialNetworks.ToList();
-        }          
+        }
 
         public FullName FullName { get; private set; } = null!;
 
@@ -49,28 +49,7 @@ namespace PetProject.Domain.VolunteerContext
 
         public IReadOnlyList<Pet> Pets => _pets;
 
-        private int GetPetsCountByStatus(HelpStatus status) => Pets.Count(p => p.HelpStatus == status);
-
-        public Result AddSocialNetwork(SocialNetwork socialNetwork)
-        {
-            if (_socialNetworks.Contains(socialNetwork))
-                return Result.Failure("Social network already exists in the volunteer's list.");
-
-            _socialNetworks.Add(socialNetwork);
-
-            return Result.Success();
-        }
-
-        public Result AddRequisite(Requisite requisite)
-        {
-            if (_requisites.Contains(requisite))
-                return Result.Failure("Requisite already exists in the volunteer's list.");
-
-            _requisites.Add(requisite);
-
-            return Result.Success();
-        }
-
+        private int GetPetsCountByStatus(HelpStatus status) => Pets.Count(p => p.HelpStatus == status);        
         public Result AddPet(Pet pet)
         {
             if (_pets.Contains(pet))
@@ -94,6 +73,30 @@ namespace PetProject.Domain.VolunteerContext
         public int GetPetsNeedsHelp()
         {
             return GetPetsCountByStatus(HelpStatus.NeedHelp);
-        }         
+        }
+
+        public void UpdateMainInfo(
+            FullName fullName,
+            VolunteerContacts contacts,
+            Description description,
+            int experienceYears)
+        {
+            FullName = fullName;
+            Contacts = contacts;
+            Description = description;
+            ExperienceYears = experienceYears;
+        }
+
+        public void UpdateSocialNetworks(IEnumerable<SocialNetwork> socialNetworks)
+        {            
+            _socialNetworks.Clear();
+            _socialNetworks.AddRange(socialNetworks);
+        }
+
+        public void UpdateRequisites(IEnumerable<Requisite> requisites)
+        {            
+            _requisites.Clear();
+            _requisites.AddRange(requisites);
+        }
     }
 }

@@ -7,7 +7,7 @@ using FluentValidation;
 using PetProject.Application.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace PetProject.Application.Volunteers.CreateVolunteer
+namespace PetProject.Application.Volunteers.Create
 {
     public class CreateVolunteerHandler
     {
@@ -23,7 +23,8 @@ namespace PetProject.Application.Volunteers.CreateVolunteer
             _logger = logger;
         }
         public async Task<Result<Guid, ErrorList>> Execute(
-        CreateVolunteerCommand command, CancellationToken cancellationToken = default)
+        CreateVolunteerCommand command,
+        CancellationToken cancellationToken = default)
         {             
             var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
@@ -44,8 +45,10 @@ namespace PetProject.Application.Volunteers.CreateVolunteer
             var existingVolunteer = await _volunteersRepository.GetByEmail(email, cancellationToken);
 
             if (existingVolunteer.IsSuccess)
+            {
                 return Errors.General.AlreadyExist(email.Value).ToErrorList();
-
+            }
+                
             var phone = Phone.Create(command.Phone).Value;            
 
             var volunteerContacts = new VolunteerContacts(email,phone);
