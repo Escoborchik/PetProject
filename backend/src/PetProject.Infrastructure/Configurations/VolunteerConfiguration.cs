@@ -118,6 +118,14 @@ namespace PetProject.Infrastructure.Configurations
 
             builder.Navigation(v => v.Pets).AutoInclude();
 
+            builder.Property<bool>("IsDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted")
+                .HasDefaultValue(false);
+
+            builder.Property<DateTime?>("DeletionDate")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)              
+                .HasColumnName("deletion_date");
         }
     }
 }

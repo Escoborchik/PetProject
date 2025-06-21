@@ -156,7 +156,15 @@ namespace PetProject.Infrastructure.Configurations
                 .HasColumnName("breed_id");
 
             });
-                    
+
+            builder.Property("IsDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted")
+                .HasDefaultValue(false);
+
+            builder.Property<DateTime?>("DeletionDate")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)                
+                .HasColumnName("deletion_date");
         }
     }
 }
